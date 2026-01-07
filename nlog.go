@@ -91,7 +91,7 @@ func NewLogger(loggerOpts ...LoggerOpt) *Logger {
 
 func (logger *Logger) Tracef(msg string, args ...any) {
 	for _, lg := range logger.loggers {
-		logger.logMsg(slog.LevelDebug, logger.makeCustomLogFn(lg, LevelTrace, msg, args...), msg, args...)
+		logger.logMsg(slog.LevelDebug, makeCustomLogFn(lg, LevelTrace), msg, args...)
 	}
 }
 
@@ -121,11 +121,11 @@ func (logger *Logger) Errorf(msg string, args ...any) {
 
 func (logger *Logger) Fatalf(msg string, args ...any) {
 	for _, lg := range logger.loggers {
-		logger.logMsg(slog.LevelDebug, logger.makeCustomLogFn(lg, LevelFatal, msg, args...), msg, args...)
+		logger.logMsg(slog.LevelDebug, makeCustomLogFn(lg, LevelFatal), msg, args...)
 	}
 }
 
-func (logger *Logger) makeCustomLogFn(lg *slog.Logger, customLogLevel slog.Level, msg string, args ...any) func(msg string, args ...any) {
+func makeCustomLogFn(lg *slog.Logger, customLogLevel slog.Level) func(msg string, args ...any) {
 	return func(msg string, args ...any) {
 		lg.Log(context.Background(), customLogLevel, msg, args...)
 	}
