@@ -24,7 +24,7 @@ func TestHandler(t *testing.T) {
 	}
 
 	//mh := NewMultiHandler(WithConsole(), WithLogLevel("DEBUG"))
-	mh := NewMultiHandler(WithLogTimestampFormat(time.DateOnly), WithFile(fileLogger), WithLogLevel("INFO"))
+	mh := NewMultiHandler(WithLogTimestampFormat(time.RFC3339Nano), WithFile(fileLogger), WithConsole(), WithLogLevel("INFO"))
 	slog.SetDefault(slog.New(mh))
 	l := slog.Default().With("interfaceName", "data")
 
